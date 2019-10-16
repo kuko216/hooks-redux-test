@@ -1,12 +1,20 @@
-import React from "react";
-import { useSelector, useActions } from "react-redux";
+import React, { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Counter from "../components/Counter";
 import { increment, decrement } from "../modules/counter";
 
 const CounterContainer = () => {
   const counter = useSelector(state => state.counter, []);
 
-  const [onIncrease, onDecrease] = useActions([increment, decrement], []);
+  const dispatch = useDispatch();
+  const onIncrease = useCallback(
+    () => dispatch({ type: "counter/INCREMENT" }),
+    [dispatch]
+  );
+  const onDecrease = useCallback(
+    () => dispatch({ type: "counter/DECREMENT" }),
+    [dispatch]
+  );
 
   return (
     <Counter number={counter} onIncrease={onIncrease} onDecrease={onDecrease} />
